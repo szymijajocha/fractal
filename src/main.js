@@ -12,14 +12,18 @@ function redraw() {
     resizeCanvas(canv, ctx);
     resizeCanvas(grap, content);
 
-    let middle = setMiddle(xmax, xmin, ymax, ymin, canv.width, canv.height);
+    middle = setMiddle(xmax, xmin, ymax, ymin, canv.width, canv.height);
 
-    let xjump = middle.x / Math.abs(xmin);
-    let yjump = middle.y / Math.abs(ymax);
+    xjump = middle.x / Math.abs(xmin);
+    yjump = middle.y / Math.abs(ymax);
 
     renderMandlebrot(canv, ctx, yjump, xjump, middle);
     drawGraph(grap, middle, content, xmax, xmin, ymin, ymax);
 }
+
+let middle = {}
+let xjump = 0
+let yjump = 0
 
 window.addEventListener("resize", redraw)
 window.onload = redraw

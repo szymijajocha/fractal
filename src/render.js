@@ -1,6 +1,23 @@
+import { state } from "./state.js"
+
 function renderPx(x, y) {
-    let a = 0
-    let b = 0
+    let a = state.zr
+    let b = state.zi
+    for (let i = 0; i < 1000; i++) {
+        let aa = a ** 2 - b ** 2 + x
+        let bb = 2 * a * b + y
+        a = aa
+        b = bb
+        if (a ** 2 + b ** 2 > 4) {
+            return false
+        }
+    }
+    return true
+}
+
+function renderPxJulia(a, b) {
+    let x = state.cr
+    let y = state.ci
     for (let i = 0; i < 1000; i++) {
         let aa = a ** 2 - b ** 2 + x
         let bb = 2 * a * b + y
@@ -19,7 +36,7 @@ export function renderMandlebrot(canv, ctx, yjump, xjump, middle) {
         for (let j = 0; j < canv.width; j++) {
             let iupd = (i - middle.y) / yjump
             let jupd = (j - middle.x) / xjump
-            let vall = renderPx(jupd, iupd)
+            let vall = state.fractal == "mandlebrot" ? renderPx(jupd, iupd) : renderPxJulia(jupd, iupd)
             let idx = (i * canv.width + j) * 4
             if (vall) {
                 imgData.data[idx + 0] = 0;

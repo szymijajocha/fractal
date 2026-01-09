@@ -62,9 +62,24 @@ let xmax = 3
 let xmin = -3
 let ymax = 2
 let ymin = -2
+let zoom = 1
 
 grap.addEventListener("click", function (e) {
     let rawx = e.clientX - middle.x
     let rawy = 0 - (e.clientY - middle.y)
     alert(`${rawx / xjump}, ${rawy / yjump}`)
 })
+
+window.addEventListener("wheel", function(e){
+    e.preventDefault()
+    let x = (e.clientX - middle.x) / xjump
+    let y = (0 - (e.clientY - middle.y)) / yjump
+    zoom = e.deltaY > 0 ? 1.1 : 0.9
+    let xrange = xmax - xmin
+    let yrange = ymax - ymin
+    xmax = x + xrange * zoom /2
+    xmin = x - xrange * zoom /2
+    ymax = y + yrange * zoom /2
+    ymin = y - yrange * zoom /2
+    redraw()
+}, {passive: false})
